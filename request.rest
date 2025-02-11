@@ -1,0 +1,31 @@
+GET http://localhost:3000/user/?role=INTERN
+
+###
+
+GET http://localhost:3000/user
+
+###
+
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+    "name": "Guy",
+    "email": "example@email.com",
+    "role": "INTERN"
+}
+
+
+###
+PATCH http://localhost:3000/user/4
+Content-Type: application/json
+
+{
+    "name": "Guy Vir",
+    "email": "example@email.com",
+    "role": "INTERN"
+}
+
+###
+
+DELETE http://localhost:3000/user/4
