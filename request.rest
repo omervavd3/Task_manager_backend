@@ -1,4 +1,4 @@
-GET http://localhost:3000/user/?role=INTERN
+GET http://localhost:3000/user/?name=Guy
 
 ###
 
@@ -12,20 +12,18 @@ Content-Type: application/json
 {
     "name": "Guy",
     "email": "example@email.com",
-    "role": "INTERN"
+    "password": "1234"
 }
 
 
 ###
-PATCH http://localhost:3000/user/4
+PATCH http://localhost:3000/user/2
 Content-Type: application/json
 
 {
-    "name": "Guy Vir",
-    "email": "example@email.com",
-    "role": "INTERN"
+    "name": "Guy Vir"
 }
 
 ###
 
-DELETE http://localhost:3000/user/4
+DELETE http://localhost:3000/user/2

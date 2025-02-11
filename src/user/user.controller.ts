@@ -8,8 +8,8 @@ export class UserController {
     constructor(private readonly userService: UserService) {}
 
     @Get() //Get /user or /user?name=John
-    getAll(@Query('role') role: string) {
-        return this.userService.getAll(role)
+    getAll(@Query('name') name: string) {
+        return this.userService.getAll(name)
     }
 
     @Get(':id') //Get user by id /user/:id
