@@ -1,18 +1,21 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class User {
+export class Task {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ length: 500 })
-  name: string;
-
-  
-  @Column()
-  password: string;
-
+  description: string;
 
   @Column()
-  email: string;
+  userId: string;
+
+
+  @Column()
+  date: string;
+
+
+  @Column()
+  isComplete: boolean;
 }

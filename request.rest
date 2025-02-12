@@ -6,11 +6,21 @@ GET http://localhost:3000/user
 
 ###
 
-POST http://localhost:3000/user
+POST http://localhost:3000/user/register
 Content-Type: application/json
 
 {
     "name": "Guy",
+    "email": "example@email.com",
+    "password": "1234"
+}
+
+###
+
+POST http://localhost:3000/user/login
+Content-Type: application/json
+
+{
     "email": "example@email.com",
     "password": "1234"
 }
@@ -26,4 +36,36 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/user/2
+DELETE http://localhost:3000/user/4
+
+###
+//Task
+GET http://localhost:3000/task
+
+###
+
+GET http://localhost:3000/task/1
+
+###
+
+POST http://localhost:3000/task
+Content-Type: application/json
+
+{
+    "title": "Task 1",
+    "description": "Task 1 description",
+    "isComplete": false,
+    "userId": 1,
+    "date": "2021-09-01"
+}
+
+###
+PATCH http://localhost:3000/task/1
+Content-Type: application/json
+
+{
+    "isComplete": true
+}
+
+###
+DELETE http://localhost:3000/task/1
