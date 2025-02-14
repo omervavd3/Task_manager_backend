@@ -17,6 +17,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiBody,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
@@ -59,6 +61,17 @@ export class UserController {
   @ApiCreatedResponse({ description: 'Register a user' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @ApiBody({
+    description: 'Login credentials (email and password)',
+    schema: {
+      type: 'object',
+      properties: {
+        email: { type: 'string', example: 'example@email.com' },
+        name: { type: 'string', example: 'Guy' },
+        password: { type: 'string', example: 'password123' },
+      },
+    },
+  })
   register(@Body(ValidationPipe) user: CreateUserDto) {
     return this.userService.register(user);
   }
@@ -68,17 +81,37 @@ export class UserController {
   @ApiOkResponse({ description: 'Login a user' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @ApiBody({
+    description: 'Login credentials (email and password)',
+    schema: {
+      type: 'object',
+      properties: {
+        email: { type: 'string', example: 'example@email.com' },
+        password: { type: 'string', example: 'password123' },
+      },
+    },
+  })
   login(@Body('email') email: string, @Body('password') password: string) {
     return this.userService.login(email, password);
   }
 
+  @HttpCode(200)
+  @ApiOkResponse({ description: 'Logout a user' })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Post('logout')
   logout(@Request() req) {
     return this.userService.logout(req.user);
   }
 
+  @HttpCode(200)
+  @ApiOkResponse({ description: 'Delete a user' })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Delete('delete')
   delete(@Request() req) {
     return this.userService.delete(req.user);
@@ -90,6 +123,7 @@ export class UserController {
   @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   updateOne(
     @Param('id') id: string,

@@ -17,6 +17,7 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
@@ -60,6 +61,7 @@ export class TaskController {
   @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiNotFoundResponse({ description: 'Task not found' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   create(@Body(ValidationPipe) task: CreateTaskDto, @Request() req) {
     return this.taskService.create(task, req.user);
@@ -71,6 +73,7 @@ export class TaskController {
   @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiNotFoundResponse({ description: 'Task not found' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   updateOne(
     @Param('id') id: string,
@@ -86,6 +89,7 @@ export class TaskController {
   @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiNotFoundResponse({ description: 'Task not found' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   deleteOne(@Param('id') id: string, @Request() req) {
     return this.taskService.deleteOne(id, req.user);
