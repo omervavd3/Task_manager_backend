@@ -15,7 +15,7 @@ export class CheckUserRegisterMiddleware implements NestMiddleware {
       throw new BadRequestException('Email and name are required');
     }
 
-    const existingUser = await this.userRepository.find({ where: [{ email }, { name }] });
+    const existingUser = await this.userRepository.findOne({ where: [{ email }, { name }] });
 
     if (existingUser) {
       throw new BadRequestException('User with this email or name already exists');

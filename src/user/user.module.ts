@@ -6,11 +6,13 @@ import { DatabaseModule } from 'src/database/database.module';
 import { CheckUserRegisterMiddleware } from 'src/middlewares/user-register.middleware';
 import { CheckUserLoginMiddleware } from 'src/middlewares/user-login.middleware';
 import { ConfigModule } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
     imports: [DatabaseModule, ConfigModule.forRoot()],
     controllers: [UserController],
-    providers: [UserService, ...userProviders],
+    providers: [UserService, ...userProviders, CheckUserRegisterMiddleware, CheckUserLoginMiddleware, JwtService],
+    exports:[UserService]
 })
 export class UserModule {
     configure(consumer: MiddlewareConsumer) {

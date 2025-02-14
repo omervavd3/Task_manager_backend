@@ -25,18 +25,29 @@ Content-Type: application/json
     "password": "1234"
 }
 
+###
+
+GET http://localhost:3000/auth/me
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImVtYWlsIjoiZXhhbXBsZUBlbWFpbC5jb20iLCJpYXQiOjE3Mzk1NDYxMzR9.lkmnzdn1BCXOxG6BdD3e6-c_X4XBaqciJLFhA03C6ho
 
 ###
-PATCH http://localhost:3000/user/2
+
+POST http://localhost:3000/user/logout
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImVtYWlsIjoiZXhhbXBsZUBlbWFpbC5jb20iLCJpYXQiOjE3Mzk1NDM5OTZ9.VOLuKBWmKtwQF2xFYYn6nISGavChDlV-lCMdtRxiX_c
+
+###
+
+DELETE http://localhost:3000/user/delete
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImVtYWlsIjoiZXhhbXBsZUBlbWFpbC5jb20iLCJpYXQiOjE3Mzk1NDM5OTZ9.VOLuKBWmKtwQF2xFYYn6nISGavChDlV-lCMdtRxiX_c
+
+###
+PATCH http://localhost:3000/user/16
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImVtYWlsIjoiZXhhbXBsZUBlbWFpbC5jb20iLCJpYXQiOjE3Mzk1NDYxMzR9.lkmnzdn1BCXOxG6BdD3e6-c_X4XBaqciJLFhA03C6ho
 Content-Type: application/json
 
 {
     "name": "Guy Vir"
 }
-
-###
-
-DELETE http://localhost:3000/user/4
 
 ###
 //Task
@@ -49,23 +60,27 @@ GET http://localhost:3000/task/1
 ###
 
 POST http://localhost:3000/task
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImVtYWlsIjoiZXhhbXBsZUBlbWFpbC5jb20iLCJpYXQiOjE3Mzk1NDYxMzR9.lkmnzdn1BCXOxG6BdD3e6-c_X4XBaqciJLFhA03C6ho
 Content-Type: application/json
 
 {
-    "title": "Task 1",
-    "description": "Task 1 description",
+    "title": "Task 16",
+    "description": "Task 16 description",
     "isComplete": false,
-    "userId": 1,
     "date": "2021-09-01"
 }
 
 ###
-PATCH http://localhost:3000/task/1
-Content-Type: application/json
+PATCH http://localhost:3000/task/5
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImVtYWlsIjoiZXhhbXBsZUBlbWFpbC5jb20iLCJpYXQiOjE3Mzk1NDY0MDF9.78l4SIEPvwUdHE4OMBuhP2K41XiV8TWhb9oVz0d_368
 
 {
     "isComplete": true
 }
 
 ###
-DELETE http://localhost:3000/task/1
+DELETE http://localhost:3000/task/5
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImVtYWlsIjoiZXhhbXBsZUBlbWFpbC5jb20iLCJpYXQiOjE3Mzk1NDY0MDF9.78l4SIEPvwUdHE4OMBuhP2K41XiV8TWhb9oVz0d_368
+###
+
+
