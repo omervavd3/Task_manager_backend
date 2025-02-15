@@ -41,6 +41,7 @@ export class TaskController {
   @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiNotFoundResponse({ description: 'Task not found' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @UseGuards(AuthGuard)
   getAll(@Query('userId') userId?: string) {
     return this.taskService.getAll(userId);
   }

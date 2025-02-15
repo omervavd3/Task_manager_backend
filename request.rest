@@ -60,12 +60,12 @@ GET http://localhost:3000/task/1
 ###
 
 POST http://localhost:3000/task
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImVtYWlsIjoiZXhhbXBsZUBlbWFpbC5jb20iLCJpYXQiOjE3Mzk1NDYxMzR9.lkmnzdn1BCXOxG6BdD3e6-c_X4XBaqciJLFhA03C6ho
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImVtYWlsIjoib21lcnZhdmQzQGdtYWlsLmNvbSIsImlhdCI6MTczOTY0NTAxNX0.Q3ZF7HAYm5VPo7AjmtRMsGzBP9tZYYkpeCDwozX568M
 Content-Type: application/json
 
 {
-    "title": "Task 16",
-    "description": "Task 16 description",
+    "title": "Task 1Test 222",
+    "description": "Task Test 222 description",
     "isComplete": false,
     "date": "2021-09-01"
 }
