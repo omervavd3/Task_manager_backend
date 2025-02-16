@@ -21,11 +21,7 @@ export class TaskService {
     try {
       if (userId) {
         const userById = await this.taskRepository.find({ where: { userId } });
-        if (userById.length > 0) {
-          return userById;
-        } else {
-          throw new NotFoundException('User not found');
-        }
+        return userById;
       } else {
         return await this.taskRepository.find();
       }
@@ -81,13 +77,13 @@ export class TaskService {
         where: { id: +id },
       });
       if (!taskToDelete) {
-          throw new NotFoundException('Task not found for delete');
-    } 
-    if (taskToDelete.userId != userPayload.id) {
-      throw new NotFoundException('User not allowed to delete this task');
-    }
-    await this.taskRepository.delete({ id: +id });
-    return `Task deleted`;
+        throw new NotFoundException('Task not found for delete');
+      }
+      if (taskToDelete.userId != userPayload.id) {
+        throw new NotFoundException('User not allowed to delete this task');
+      }
+      await this.taskRepository.delete({ id: +id });
+      return `Task deleted`;
     } catch (error) {
       throw new NotFoundException();
     }
