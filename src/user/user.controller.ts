@@ -23,6 +23,8 @@ import {
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiOperation,
+  ApiParam,
   ApiQuery,
 } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guards';
@@ -31,6 +33,7 @@ import { AuthGuard } from 'src/guards/auth.guards';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @ApiOperation({ summary: 'Get all users, can be filtered by name' })
   @Get() //Get /user or /user?name=John
   @HttpCode(200)
   @ApiQuery({
@@ -46,23 +49,30 @@ export class UserController {
     return this.userService.getAll(name);
   }
 
+  @ApiOperation({ summary: 'Get a user by id' })
   @Get(':id') //Get user by id /user/:id
   @HttpCode(200)
   @ApiOkResponse({ description: 'Get a user by id' })
   @ApiBadRequestResponse({ description: 'Bad request' })
   @ApiNotFoundResponse({ description: 'User not found' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'User ID',
+  })
   getOne(@Param('id') id: string) {
     return this.userService.getOne(id);
   }
 
+  @ApiOperation({ summary: 'Register a new user' })
   @Post('/register') //Register user /user/register
   @HttpCode(201)
   @ApiCreatedResponse({ description: 'Register a user' })
-  @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiBadRequestResponse({ description: 'User with this name or email alredy exists' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @ApiBody({
-    description: 'Login credentials (email and password)',
+    description: 'Sign Up credentials',
     schema: {
       type: 'object',
       properties: {
@@ -76,6 +86,7 @@ export class UserController {
     return this.userService.register(user);
   }
 
+  @ApiOperation({ summary: 'Login a user' })
   @Post('/login') //Login user /user/login
   @HttpCode(200)
   @ApiOkResponse({ description: 'Login a user' })
@@ -95,6 +106,7 @@ export class UserController {
     return this.userService.login(email, password);
   }
 
+  @ApiOperation({ summary: 'Logout a user' })
   @HttpCode(200)
   @ApiOkResponse({ description: 'Logout a user' })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -106,6 +118,7 @@ export class UserController {
     return this.userService.logout(req.user);
   }
 
+  @ApiOperation({ summary: 'Delete a user' })
   @HttpCode(200)
   @ApiOkResponse({ description: 'Delete a user' })
   @ApiBadRequestResponse({ description: 'Bad request' })
@@ -117,19 +130,19 @@ export class UserController {
     return this.userService.delete(req.user);
   }
 
-  @Patch(':id') //Update user by id /user/:id
-  @HttpCode(200)
-  @ApiOkResponse({ description: 'Update a user by id' })
-  @ApiBadRequestResponse({ description: 'Bad request' })
-  @ApiNotFoundResponse({ description: 'User not found' })
-  @ApiInternalServerErrorResponse({ description: 'Internal server error' })
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard)
-  updateOne(
-    @Param('id') id: string,
-    @Body(ValidationPipe) updateUser: UpdateUserDto,
-    @Request() req,
-  ) {
-    return this.userService.updateOne(id, updateUser, req.user);
-  }
+  // @Patch(':id') //Update user by id /user/:id
+  // @HttpCode(200)
+  // @ApiOkResponse({ description: 'Update a user by id' })
+  // @ApiBadRequestResponse({ description: 'Bad request' })
+  // @ApiNotFoundResponse({ description: 'User not found' })
+  // @ApiInternalServerErrorResponse({ description: 'Internal server error' })
+  // @ApiBearerAuth()
+  // @UseGuards(AuthGuard)
+  // updateOne(
+  //   @Param('id') id: string,
+  //   @Body(ValidationPipe) updateUser: UpdateUserDto,
+  //   @Request() req,
+  // ) {
+  //   return this.userService.updateOne(id, updateUser, req.user);
+  // }
 }

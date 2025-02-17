@@ -23,26 +23,34 @@ export class AuthService {
   ) {}
 
   async getAccess(payload: UserPayload, userId: string) {
-    if (payload.id == userId) {
-      return true;
-    } else {
-      throw new UnauthorizedException('Unauthorized');
+    try {
+      if (payload.id == userId) {
+        return true;
+      } else {
+        throw new UnauthorizedException('Unauthorized');
+      }
+    } catch (error) {
+      throw error;
     }
   }
 
   async isLoggedIn(payload: UserPayload) {
-    const user = await this.userRepository.findOne({
-      where: { id: Number(payload.id) },
-    });
-    if (user) {
-      const data = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      };
-      return data;
-    } else {
-      throw new NotFoundException('User not found');
+    try {
+      const user = await this.userRepository.findOne({
+        where: { id: Number(payload.id) },
+      });
+      if (user) {
+        const data = {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        };
+        return data;
+      } else {
+        throw new NotFoundException('User not found');
+      }
+    } catch (error) {
+      throw error;
     }
   }
 }

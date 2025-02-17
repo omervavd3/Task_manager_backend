@@ -1,4 +1,9 @@
-import { Injectable, Inject, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  Inject,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { NotFoundException } from '@nestjs/common';
@@ -20,24 +25,6 @@ export class UserService {
     private jwtService: JwtService,
   ) {}
 
-  private id = 4;
-  private users = [
-    {
-      id: 1,
-      name: 'John',
-      email: 'john@email.com',
-    },
-    {
-      id: 2,
-      name: 'Jane',
-      email: 'jane@email.com',
-    },
-    {
-      id: 3,
-      name: 'Doe',
-      email: 'doe@email.com',
-    },
-  ];
   async getAll(name?: string) {
     if (name) {
       const userByName = await this.userRepository.find({ where: { name } });
@@ -60,11 +47,15 @@ export class UserService {
   }
 
   async register(user: CreateUserDto) {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(user.password, salt);
-    user.password = hashedPassword;
-    user.token = '';
-    return await this.userRepository.save(user);
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(user.password, salt);
+      user.password = hashedPassword;
+      user.token = '';
+      return await this.userRepository.save(user);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async login(email: string, password: string) {
@@ -87,7 +78,7 @@ export class UserService {
         throw new NotFoundException('User not found');
       }
     } catch (error) {
-      return error.message;
+      throw error;
     }
   }
 
@@ -103,7 +94,7 @@ export class UserService {
       await this.userRepository.save(user);
       return 'Logged out';
     } catch (error) {
-      return error.message;
+      throw error;
     }
   }
 
@@ -121,7 +112,7 @@ export class UserService {
       await this.userRepository.delete(user.id);
       return 'User deleted';
     } catch (error) {
-      return error.message;
+      throw error;
     }
   }
 
@@ -146,7 +137,7 @@ export class UserService {
       });
       return `User ${newUpdateUser?.name} updated`;
     } catch (error) {
-      throw new NotFoundException('Something went wrong');
+      throw error;
     }
   }
 }

@@ -6,6 +6,9 @@ export class Task {
   id: number;
 
   @Column({ length: 500 })
+  title: string;
+
+  @Column({ length: 500 })
   description: string;
 
   @Column()

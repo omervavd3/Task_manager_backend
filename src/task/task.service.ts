@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Task } from './task.entity';
 import { NotFoundException } from '@nestjs/common';
@@ -39,7 +39,7 @@ export class TaskService {
         throw new NotFoundException('Task not found by ID');
       }
     } catch (error) {
-      throw new NotFoundException();
+      throw error
     }
   }
 
@@ -49,7 +49,7 @@ export class TaskService {
       task.userId = userId;
       return await this.taskRepository.save(task);
     } catch (error) {
-      throw new NotFoundException('Something went wrong');
+      throw error
     }
   }
 
@@ -67,25 +67,42 @@ export class TaskService {
       await this.taskRepository.update({ id: +id }, task);
       return `Task updated`;
     } catch (error) {
-      throw new NotFoundException('Something went wrong');
+      throw error
     }
   }
 
-  async deleteOne(id: string, userPayload: UserPayload) {
+  async deleteByUser(userPayload: UserPayload) {
     try {
-      const taskToDelete = await this.taskRepository.findOne({
-        where: { id: +id },
+      const taskToDelete = await this.taskRepository.find({
+        where: { userId: userPayload.id },
       });
-      if (!taskToDelete) {
-        throw new NotFoundException('Task not found for delete');
+      if (!taskToDelete || !taskToDelete[0]) {
+        return `No tasks to delete`;
       }
-      if (taskToDelete.userId != userPayload.id) {
-        throw new NotFoundException('User not allowed to delete this task');
-      }
-      await this.taskRepository.delete({ id: +id });
-      return `Task deleted`;
+      taskToDelete.forEach(async (task) => {
+        await this.taskRepository.delete({ id: task.id });
+      });
+      return `Tasks deleted`;
     } catch (error) {
-      throw new NotFoundException();
+      throw new BadRequestException();
     }
   }
+
+    async deleteByTaskId(id: string, userPayload: UserPayload) {
+        try {
+        const taskToDelete = await this.taskRepository.findOne({
+            where: { id: +id },
+        });
+        if (!taskToDelete) {
+            throw new NotFoundException('Task not found for delete');
+        }
+        if (taskToDelete.userId != userPayload.id) {
+            throw new NotFoundException('User not allowed to delete this task');
+        }
+        await this.taskRepository.delete({ id: +id });
+        return `Task deleted`;
+        } catch (error) {
+        throw error
+        }
+    }
 }
